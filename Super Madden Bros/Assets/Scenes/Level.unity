@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 788388588}
   - component: {fileID: 788388587}
   - component: {fileID: 788388586}
+  - component: {fileID: 788388589}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -545,6 +546,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &788388589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788388585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19644b729fef50c489c38942a09739a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1819619724}
+  leftBound: {fileID: 957859771}
+  rightBound: {fileID: 813207014}
+  smoothDampTime: 0.15
 --- !u!1001 &788941196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -554,7 +571,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 159418, guid: 0114cdacba174488c92aa1edf31baed1, type: 3}
       propertyPath: m_Name
-      value: Bounds (1)
+      value: RightBounds
       objectReference: {fileID: 0}
     - target: {fileID: 422988, guid: 0114cdacba174488c92aa1edf31baed1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -602,6 +619,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0114cdacba174488c92aa1edf31baed1, type: 3}
+--- !u!4 &813207014 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 422988, guid: 0114cdacba174488c92aa1edf31baed1,
+    type: 3}
+  m_PrefabInstance: {fileID: 788941196}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &957859771 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 422988, guid: 0114cdacba174488c92aa1edf31baed1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1821101695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &962786040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1172,6 +1201,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab6eae54fae7446b3a6efa6460472ee9, type: 3}
+--- !u!1 &1819619718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 103438, guid: a2921b55bcf164853960c853662332ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 1647689997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1819619719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819619718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09eebb8394e964548ad0e7fc051407d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: {x: 7, y: 0}
+--- !u!4 &1819619724 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 466550, guid: a2921b55bcf164853960c853662332ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 1647689997}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1821101695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1181,7 +1235,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 159418, guid: 0114cdacba174488c92aa1edf31baed1, type: 3}
       propertyPath: m_Name
-      value: Bounds
+      value: LeftBounds
       objectReference: {fileID: 0}
     - target: {fileID: 422988, guid: 0114cdacba174488c92aa1edf31baed1, type: 3}
       propertyPath: m_LocalPosition.x
