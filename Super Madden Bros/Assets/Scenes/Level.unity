@@ -234,6 +234,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e582a70e0a5c4082bef410c4ddf6cd5, type: 3}
+--- !u!1 &77907693 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 124218, guid: 4ba430f162f394ec89163bcf70a24ee8,
+    type: 3}
+  m_PrefabInstance: {fileID: 16255586}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &77907694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77907693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916bf770bb6c15446bc915e0631d9d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: 0
+  velocity: {x: 0, y: 0}
+  isWalkingLeft: 1
 --- !u!1001 &225308767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -688,6 +709,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2100a586b7a480c8cf7c574d285745, type: 3}
+--- !u!1 &1025275408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 133116, guid: 2701c414dca9549cea239933a6e195a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1472455092}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1025275409
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025275408}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1001 &1095356124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1219,7 +1272,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09eebb8394e964548ad0e7fc051407d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravity: 65
+  jumpVelocity: 22
   velocity: {x: 7, y: 0}
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 1
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!4 &1819619724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 466550, guid: a2921b55bcf164853960c853662332ad,
