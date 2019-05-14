@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -9,6 +10,14 @@ public class EnemyAI : MonoBehaviour
     public bool isWalkingLeft = true;
 
     private bool grounded = false;
+
+    public LayerMask floorMask;
+    public LayerMask wallMask;
+
+    private bool shouldDie = false;
+    private float deathTimer = 0;
+
+    public float timeBeforeDestroy = 1f;
 
     private enum EnemyState
     {
@@ -22,14 +31,39 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enabled = false;
         fall();
+        //enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateEnemyPosition();
+        CheckCrushed();
+    }
+
+    public void Crush()
+    {
+        state = EnemyState.dead;
+        GetComponent<Animator>().SetBool("isCrushed", true);
+        //GetComponent<Collider>().enabled = false;
+        shouldDie = true;
+    }
+
+    void CheckCrushed()
+    {
+        if (shouldDie)
+        {
+            if (deathTimer <= timeBeforeDestroy)
+            {
+                deathTimer += Time.deltaTime;
+            }
+            else
+            {
+                shouldDie = false;
+                Destroy(this.gameObject);
+            }
+        }
     }
 
     void UpdateEnemyPosition()
@@ -46,12 +80,111 @@ public class EnemyAI : MonoBehaviour
             }
             if(state == EnemyState.walking)
             {
-
+                if (isWalkingLeft)
+                {
+                    position.x -= velocity.x * Time.deltaTime;
+                    scale.x = -1;
+                }
+                else
+                {
+                    position.x += velocity.x * Time.deltaTime;
+                    scale.x = 1;
+                }
             }
+
+            if(velocity.y <= 0)
+            {
+                position = CheckGround(position);
+            }
+
+            CheckWalls(position, scale.x);
+
+            transform.localPosition = position;
+            transform.localScale = scale;
         }
     }
 
-    private void OnBecameInvisible()
+    Vector3 CheckGround(Vector3 position)
+    {
+        Vector2 originLeft = new Vector2(position.x - 0.5f + 0.2f, position.y - 0.5f);
+        Vector2 originMiddle = new Vector2(position.x, position.y - 0.5f);
+        Vector2 originRight = new Vector2(position.x + 0.5f - 0.2f, position.y - 0.5f);
+
+        RaycastHit2D groundLeft = Physics2D.Raycast(originLeft, Vector2.down, velocity.y * Time.deltaTime, floorMask);
+        RaycastHit2D groundMiddle = Physics2D.Raycast(originMiddle, Vector2.down, velocity.y * Time.deltaTime, floorMask);
+        RaycastHit2D groundRight = Physics2D.Raycast(originRight, Vector2.down, velocity.y * Time.deltaTime, floorMask);
+
+        if (groundLeft.collider != null || groundMiddle.collider != null || groundRight.collider != null)
+        {
+            RaycastHit2D hitRay = groundLeft;
+
+            if (groundLeft)
+            {
+                hitRay = groundLeft;
+            } else if (groundMiddle)
+            {
+                hitRay = groundMiddle;
+            } else if (groundRight)
+            {
+                hitRay = groundRight;
+            }
+
+            if (hitRay.collider.tag == "Player")
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+
+            position.y = hitRay.collider.bounds.center.y + hitRay.collider.bounds.size.y / 2 + 0.5f;
+            grounded = true;
+            velocity.y = 0;
+            state = EnemyState.walking;
+        }
+        else
+        {
+            if(state != EnemyState.falling)
+            {
+                fall();
+            }
+        }
+        return position;
+    }
+
+    void CheckWalls(Vector3 position, float direction)
+    {
+        Vector2 originTop = new Vector2(position.x + direction * 0.4f, position.y + 0.5f - 0.2f);
+        Vector2 originMiddle = new Vector2(position.x + direction * 0.4f, position.y);
+        Vector2 originBottom = new Vector2(position.x + direction * 0.4f, position.y - 0.5f + 0.2f);
+        RaycastHit2D wallTop = Physics2D.Raycast(originTop, new Vector2(direction, 0), velocity.x * Time.deltaTime, wallMask);
+        RaycastHit2D wallMiddle = Physics2D.Raycast(originMiddle, new Vector2(direction, 0), velocity.x * Time.deltaTime, wallMask);
+        RaycastHit2D wallBottom = Physics2D.Raycast(originBottom, new Vector2(direction, 0), velocity.x * Time.deltaTime, wallMask);
+
+        if (wallTop.collider != null || wallMiddle.collider != null || wallBottom.collider != null)
+        {
+            RaycastHit2D hitRay = wallTop;
+            
+            if (wallTop)
+            {
+                hitRay = wallTop;
+            }
+            else if (wallMiddle)
+            {
+                hitRay = wallMiddle;
+            }
+            else if (wallBottom)
+            {
+                hitRay = wallBottom;
+            }
+
+            if (hitRay.collider.tag == "Player")
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+
+            isWalkingLeft = !isWalkingLeft;
+        }
+    }
+
+    void OnBecameVisible()
     {
         enabled = true;
     }

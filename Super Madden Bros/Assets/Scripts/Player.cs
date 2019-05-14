@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public float gravity;
+    public float bounceVelocity;
     public float jumpVelocity;
     public Vector2 velocity;
     private bool walk, walkLeft, walkRight, jump;
@@ -15,15 +17,17 @@ public class Player : MonoBehaviour
     {
         jumping,
         idle,
-        walking
+        walking,
+        bouncing
     }
     private PlayerState playerState = PlayerState.idle;
-    bool grounded = false;
+    private bool grounded = false;
+    private bool bounce = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        //fall();
+        fall();
     }
 
     // Update is called once per frame
@@ -63,6 +67,16 @@ public class Player : MonoBehaviour
             position.y += velocity.y * Time.deltaTime;
             velocity.y -= gravity * Time.deltaTime;
         }
+        if(bounce && playerState != PlayerState.bouncing)
+        {
+            playerState = PlayerState.bouncing;
+            velocity = new Vector2(velocity.x, bounceVelocity);
+        }
+        if(playerState == PlayerState.bouncing)
+        {
+            position.y += velocity.y * Time.deltaTime;
+            velocity.y -= gravity * Time.deltaTime;
+        }
 
         if(velocity.y <= 0)
         {
@@ -80,7 +94,7 @@ public class Player : MonoBehaviour
 
     void UpdateAnimationStates()
     {
-        if(grounded && !walk)
+        if(grounded && !walk && !bounce)
         {
             GetComponent<Animator>().SetBool("isJumping", false);
             GetComponent<Animator>().SetBool("isRunning", false);
@@ -152,6 +166,13 @@ public class Player : MonoBehaviour
             {
                 hitRay = floorRight;
             }
+
+            if (hitRay.collider.tag == "Enemy")
+            {
+                hitRay.collider.GetComponent<EnemyAI>().Crush();
+                bounce = true;
+            }
+
             playerState = PlayerState.idle;
             grounded = true;
             velocity.y = 0;
@@ -204,5 +225,6 @@ public class Player : MonoBehaviour
         velocity.y = 0;
         playerState = PlayerState.jumping;
         grounded = false;
+        bounce = false;
     }
 }
