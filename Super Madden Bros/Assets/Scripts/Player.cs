@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private bool walk, walkLeft, walkRight, jump;
     public LayerMask wallMask;
     public LayerMask floorMask;
+    public AudioSource aud;
 
     public enum PlayerState
     {
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        aud = GetComponent<AudioSource>();
         fall();
     }
 
@@ -187,6 +189,11 @@ public class Player : MonoBehaviour
         }
 
         return position;
+    }
+
+    public void play()
+    {
+        aud.Play();
     }
 
     Vector3 CheckCeilingRays(Vector3 position)
